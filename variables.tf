@@ -102,9 +102,9 @@ variable "public_subnet" {
 }
 
 
-variable "service_secrets" {
+// variable "service_secrets" {
 
-}
+// }
 
 variable "environment_tags" {
   type = map
