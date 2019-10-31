@@ -7,7 +7,7 @@
 module "evt-service" {
   source = "./evt/service"
 
-  service_name               = "service1"
+  service_name               = "service-1st"
   aws_region                 = var.aws_region
   public_subnet              = true
   aws_route53_root_zone_name = "evt.zone"
@@ -16,9 +16,9 @@ module "evt-service" {
     secret1 = {
       name = "give_me_a_name"
     }
-    # secret2 = {
-    #   name = "give_me_another_name"
-    # }
+    secret2 = {
+      name = "give_me_another_name"
+    }
   }
 
   container_config = {
