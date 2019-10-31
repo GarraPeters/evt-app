@@ -51,7 +51,3 @@ module "evt-service" {
   aws_subnet_public  = var.aws_subnet_public
   aws_subnet_private = var.aws_subnet_private
 }
-
-output "evt-service" {
-  value = module.evt-service.service_output
-}
