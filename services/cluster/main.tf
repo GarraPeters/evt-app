@@ -218,6 +218,18 @@ resource "aws_alb_listener" "container_listener" {
   load_balancer_arn = var.aws_alb_main_id
   port              = var.aws_ecs_task_definition_container_definitions_var_container_image[each.key].port
   protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = var.target_group_arn[each.key].id
+  }
+}
+
+resource "aws_alb_listener" "container_listener_secure" {
+  for_each          = var.aws_ecs_task_definition_container_definitions_var_container_image
+  load_balancer_arn = var.aws_alb_main_id
+  port              = "443"
+  protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
   certificate_arn   = var.aws_acm_certificate_validation_default_certificate_arn
 
