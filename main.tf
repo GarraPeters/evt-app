@@ -1,16 +1,10 @@
-// variable "environment_tags" { type = map }
-// variable "aws_region" {}
-// variable "aws_vpc_main_id" {}
-// variable "aws_subnet_public" {}
-// variable "aws_subnet_private" {}
-
 module "evt-service" {
   source = "./evt/service"
 
   service_name               = "service-1st"
   aws_region                 = var.aws_region
   public_subnet              = true
-  aws_route53_root_zone_name = "evt.zone"
+  aws_route53_root_zone_name = var.aws_root_zone
 
   service_secrets = {
     secret1 = {
