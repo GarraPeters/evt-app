@@ -26,16 +26,16 @@ module "evt-service" {
         "tag2" = "value2"
       }, var.environment_tags)
     }
-    container2 = {
-      name             = "image2222",
-      image            = "nginx:latest",
-      port             = "443",
-      assign_public_ip = true,
-      tags = merge({
-        "tag1" = "value1",
-        "tag2" = "value2"
-      }, var.environment_tags)
-    }
+    // container2 = {
+    //   name             = "image2222",
+    //   image            = "nginx:latest",
+    //   port             = "443",
+    //   assign_public_ip = true,
+    //   tags = merge({
+    //     "tag1" = "value1",
+    //     "tag2" = "value2"
+    //   }, var.environment_tags)
+    // }
 
   }
 
