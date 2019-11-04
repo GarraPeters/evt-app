@@ -6,3 +6,6 @@ output "secret_arn" {
   value = values(data.aws_secretsmanager_secret.container_secrets)[*].arn
 }
 
+# output "aws_alb_main" {
+#   value = aws_alb.main
+# }

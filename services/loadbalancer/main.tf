@@ -1,11 +1,12 @@
 ### ALB
 
 resource "aws_alb" "main" {
-  name            = var.aws_alb_name
+  for_each        = var.service_config
+  name            = "${var.aws_alb_name}-${var.service_config[each.key].name}"
   internal        = false
   subnets         = var.aws_subnets.*.id
   security_groups = [var.aws_security_group_lb_id]
-  tags            = var.environment_tags
+  tags            = var.service_config[each.key].tags
 }
 
 resource "aws_alb_target_group" "app" {

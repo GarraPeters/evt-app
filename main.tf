@@ -17,7 +17,7 @@ module "evt-service" {
 
   container_config = {
     container1 = {
-      name             = "image111",
+      name             = "service111",
       image            = "nginx:latest",
       port             = "80",
       assign_public_ip = true,
@@ -27,7 +27,7 @@ module "evt-service" {
       }, var.environment_tags)
     }
     container2 = {
-      name             = "image2222",
+      name             = "service222",
       image            = "nginx:latest",
       port             = "80",
       assign_public_ip = true,

@@ -212,10 +212,34 @@ resource "aws_ecs_service" "main" {
   depends_on = [aws_alb_listener.container_listener]
 }
 
+
+### ALB
+
+# TODO:MOVING ALB functionality into the cluster modules to tie it in more closely.
+
+# resource "aws_alb" "main" {
+#   for_each        = var.aws_ecs_task_definition_container_definitions_var_container_image
+#   name            = "${var.aws_alb_name}-${var.aws_ecs_task_definition_container_definitions_var_container_image[each.key].name}"
+#   internal        = false
+#   subnets         = var.aws_subnets.*.id
+#   security_groups = [var.aws_security_group_lb_id]
+#   tags            = var.aws_ecs_task_definition_container_definitions_var_container_image[each.key].tags
+# }
+
+# resource "aws_alb_target_group" "app" {
+#   for_each    = var.aws_ecs_task_definition_container_definitions_var_container_image
+#   name        = "${var.aws_alb_target_group_name}-${var.aws_ecs_task_definition_container_definitions_var_container_image[each.key].name}"
+#   port        = var.aws_ecs_task_definition_container_definitions_var_container_image[each.key].port
+#   protocol    = "HTTP"
+#   vpc_id      = var.aws_vpc_main_id
+#   target_type = "ip"
+# }
+
+
 # Redirect all traffic from the ALB to the target group
 resource "aws_alb_listener" "container_listener" {
-  for_each          = var.aws_ecs_task_definition_container_definitions_var_container_image
-  load_balancer_arn = var.aws_alb_main_id
+  for_each          = var.aws_alb_main_id
+  load_balancer_arn = var.aws_alb_main_id[each.key].id
   port              = var.aws_ecs_task_definition_container_definitions_var_container_image[each.key].port
   protocol          = "HTTP"
 
@@ -226,12 +250,12 @@ resource "aws_alb_listener" "container_listener" {
 }
 
 resource "aws_alb_listener" "container_listener_secure" {
-  for_each          = var.aws_ecs_task_definition_container_definitions_var_container_image
-  load_balancer_arn = var.aws_alb_main_id
+  for_each          = var.aws_alb_main_id
+  load_balancer_arn = var.aws_alb_main_id[each.key].id
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = var.aws_acm_certificate_validation_default_certificate_arn
+  certificate_arn   = var.aws_acm_certificate_validation_default_certificate_arn[each.key].certificate_arn
 
   default_action {
     type             = "forward"

@@ -1,19 +1,26 @@
 variable "aws_route53_zone_name" {
-  type        = string
+  type = string
 }
 
 variable "aws_route53_record_zone_name" {
-  type        = string
+  type = string
 }
 
 variable "aws_route53_root_zone_name" {
-  type        = string
+  type = string
 }
 
-variable "loadblancer_dns" {
-  type        = string
+# variable "loadblancer_dns" {
+#   type = string
+# }
+
+# variable "loadblancer_zone_id" {
+#   type = string
+# }
+
+
+variable "service_config" {
 }
 
-variable "loadblancer_zone_id" {
-  type        = string
+variable "loadblancer" {
 }

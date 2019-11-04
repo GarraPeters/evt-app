@@ -19,9 +19,9 @@ variable "aws_subnets" {
   type = list
 }
 
-variable "aws_acm_certificate_validation_default_certificate_arn" {
-  type = string
-}
+# variable "aws_acm_certificate_validation_default_certificate_arn" {
+#   type = string
+# }
 
 variable "service_config" {
 }

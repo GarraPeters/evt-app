@@ -1,5 +1,5 @@
 output "zone_id" {
-  value = aws_route53_zone.host_zone.zone_id
+  value = aws_route53_zone.host_zone
 }
 
 output "zone_name" {
