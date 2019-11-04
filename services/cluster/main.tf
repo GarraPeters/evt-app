@@ -78,7 +78,7 @@ locals {
 }
 
 resource "aws_iam_policy" "secrets_permissions_policy" {
-  name = "${var.aws_ecs_cluster_name}-secrets_permissions_policy"
+  name = "${var.aws_ecs_cluster_name}-secrets_permissions_policy-${random_uuid.suffix.result}"
   path = "/"
 
   policy = <<EOF
