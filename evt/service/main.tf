@@ -7,30 +7,6 @@ module "security" {
   aws_vpc_main_id = var.aws_vpc_main_id
 }
 
-module "cert_manager" {
-  source = "../../services/cert_manager"
-
-  # network_route53_zone_name = module.dns.zone_name
-  network_route53_zone_id = module.dns.zone_id
-
-  service_config             = var.container_config
-  aws_route53_root_zone_name = var.aws_route53_root_zone_name
-}
-
-module "loadbalancer" {
-  source = "../../services/loadbalancer"
-
-  aws_alb_name                                           = "${var.service_name}-alb"
-  aws_alb_target_group_name                              = "${var.service_name}-alb"
-  service_config                                         = var.container_config
-  environment_tags                                       = var.environment_tags
-  aws_subnets                                            = var.public_subnet == true ? var.aws_subnet_public : var.aws_subnet_private
-  aws_security_group_lb_id                               = module.security.aws_security_group_lb_id
-  aws_vpc_main_id                                        = var.aws_vpc_main_id
-  aws_acm_certificate_validation_default_certificate_arn = module.cert_manager.aws_acm_certificate_validation_default_certificate_arn
-
-}
-
 module "dns" {
   source = "../../services/dns"
 
@@ -46,6 +22,32 @@ module "dns" {
   loadblancer    = module.loadbalancer.aws_alb_main_id
 
 }
+
+
+# module "cert_manager" {
+#   source = "../../services/cert_manager"
+
+#   # network_route53_zone_name = module.dns.zone_name
+#   network_route53_zone_id = module.dns.zone_id
+
+#   service_config             = var.container_config
+#   aws_route53_root_zone_name = var.aws_route53_root_zone_name
+# }
+
+module "loadbalancer" {
+  source = "../../services/loadbalancer"
+
+  aws_alb_name              = "${var.service_name}-alb"
+  aws_alb_target_group_name = "${var.service_name}-alb"
+  service_config            = var.container_config
+  environment_tags          = var.environment_tags
+  aws_subnets               = var.public_subnet == true ? var.aws_subnet_public : var.aws_subnet_private
+  aws_security_group_lb_id  = module.security.aws_security_group_lb_id
+  aws_vpc_main_id           = var.aws_vpc_main_id
+  # aws_acm_certificate_validation_default_certificate_arn = module.cert_manager.aws_acm_certificate_validation_default_certificate_arn
+
+}
+
 
 
 

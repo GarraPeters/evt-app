@@ -35,18 +35,18 @@ resource "aws_alb_listener" "container_listener" {
   depends_on = [aws_alb_target_group.app]
 }
 
-resource "aws_alb_listener" "container_listener_secure" {
-  for_each          = aws_alb.main
-  load_balancer_arn = aws_alb.main[each.key].id
-  port              = "443"
-  protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = var.aws_acm_certificate_validation_default_certificate_arn[each.key].certificate_arn
+# resource "aws_alb_listener" "container_listener_secure" {
+#   for_each          = aws_alb.main
+#   load_balancer_arn = aws_alb.main[each.key].id
+#   port              = "443"
+#   protocol          = "HTTPS"
+#   ssl_policy        = "ELBSecurityPolicy-2016-08"
+#   certificate_arn   = var.aws_acm_certificate_validation_default_certificate_arn[each.key].certificate_arn
 
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_alb_target_group.app[each.key].id
-  }
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = aws_alb_target_group.app[each.key].id
+#   }
 
-  depends_on = [aws_alb_target_group.app]
-}
+#   depends_on = [aws_alb_target_group.app]
+# }
