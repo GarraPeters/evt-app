@@ -45,8 +45,8 @@ variable "aws_subnets" {
   type = list
 }
 
-variable "target_group_arn" {
-}
+# variable "target_group_arn" {
+# }
 
 # variable "aws_alb_main_id" {
 # }

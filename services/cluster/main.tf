@@ -203,11 +203,11 @@ resource "aws_ecs_service" "main" {
     assign_public_ip = tobool(var.aws_ecs_task_definition_container_definitions_var_container_image[each.key].assign_public_ip)
   }
 
-  load_balancer {
-    target_group_arn = var.target_group_arn[each.key].id
-    container_name   = "app"
-    container_port   = var.aws_ecs_task_definition_container_definitions_var_container_image[each.key].port
-  }
+  # load_balancer {
+  #   target_group_arn = var.target_group_arn[each.key].id
+  #   container_name   = "app"
+  #   container_port   = var.aws_ecs_task_definition_container_definitions_var_container_image[each.key].port
+  # }
 
   # depends_on = [aws_alb_listener.container_listener]
 }
