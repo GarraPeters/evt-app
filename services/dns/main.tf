@@ -4,7 +4,7 @@ resource "aws_route53_zone" "host_zone" {
 }
 
 resource "aws_route53_record" "www" {
-  for_each = var.loadblancer
+  for_each = aws_route53_zone.host_zone
   zone_id  = aws_route53_zone.host_zone[each.key].zone_id
   name     = "${var.service_config[each.key].name}.${var.aws_route53_root_zone_name}"
   type     = "A"
@@ -21,7 +21,7 @@ data "aws_route53_zone" "root_domain" {
 }
 
 resource "aws_route53_record" "root_ns_record" {
-  for_each        = var.loadblancer
+  for_each        = aws_route53_zone.host_zone
   allow_overwrite = true
   name            = "${var.service_config[each.key].name}.${var.aws_route53_root_zone_name}"
   ttl             = 30
