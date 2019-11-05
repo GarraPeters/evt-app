@@ -17,3 +17,32 @@ resource "aws_alb_target_group" "app" {
   vpc_id      = var.aws_vpc_main_id
   target_type = "ip"
 }
+
+
+
+# Redirect all traffic from the ALB to the target group
+resource "aws_alb_listener" "container_listener" {
+  for_each          = aws_alb.main
+  load_balancer_arn = aws_alb.main[each.key].id
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.app[each.key].id
+  }
+}
+
+resource "aws_alb_listener" "container_listener_secure" {
+  for_each          = aws_alb.main
+  load_balancer_arn = aws_alb.main[each.key].id
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = var.aws_acm_certificate_validation_default_certificate_arn[each.key].certificate_arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.app[each.key].id
+  }
+}
