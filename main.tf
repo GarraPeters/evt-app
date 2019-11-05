@@ -1,7 +1,7 @@
 module "evt-service" {
   source = "./evt/service"
 
-  service_name               = "service-1st"
+  service_name               = "app-1st"
   aws_region                 = var.aws_region
   public_subnet              = true
   aws_route53_root_zone_name = var.aws_root_zone
