@@ -10,7 +10,7 @@ resource "aws_alb" "main" {
 }
 
 resource "aws_alb_target_group" "app" {
-  for_each    = var.service_config
+  for_each    = aws_alb.main
   name        = "${var.aws_alb_target_group_name}-${var.service_config[each.key].name}"
   port        = var.service_config[each.key].port
   protocol    = "HTTP"
@@ -31,6 +31,8 @@ resource "aws_alb_listener" "container_listener" {
     type             = "forward"
     target_group_arn = aws_alb_target_group.app[each.key].id
   }
+
+  depends_on = [aws_alb_target_group.app]
 }
 
 resource "aws_alb_listener" "container_listener_secure" {
@@ -45,4 +47,6 @@ resource "aws_alb_listener" "container_listener_secure" {
     type             = "forward"
     target_group_arn = aws_alb_target_group.app[each.key].id
   }
+
+  depends_on = [aws_alb_target_group.app]
 }
